@@ -1,0 +1,32 @@
+<!-- tests/__e2e__/test.html -->
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Pruebas de IndexedDB</title>
+		<!-- <script src="/idxdb/src/index.js"></script> -->
+		<script type="module">
+			import { IdxDB } from '../../src/index.js';
+			// Aquí puedes añadir código que interactúe con tu biblioteca
+			async function runTests() {
+				const idxdb = await IdxDB.init({
+          
+        });
+				// Puedes agregar llamadas a tu biblioteca aquí para probar
+				await idxdb.createObjectStore('testStore');
+				await idxdb.create('testStore', { id: 'item1', name: 'Item 1' });
+				const result = await idxdb.get('testStore', 'item1');
+				if (result) {
+					console.log('Test Passed: Item was added successfully.');
+				} else {
+					console.error('Test Failed: Item was not added.');
+				}
+			}
+			runTests();
+		</script>
+	</head>
+	<body>
+		<h1>Testing IndexedDB Library</h1>
+		<main id="results"></main>
+	</body>
+</html>
