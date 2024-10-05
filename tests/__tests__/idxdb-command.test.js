@@ -90,10 +90,20 @@ describe('IdxDBCommand', () => {
 			).rejects.toThrow(/El objecStore nonExistentStore no existe/);
 		});
 
+		it('should throw error if defines keyPath and provides key', async () => {
+			const updatedData = { id: 3, name: 'Updated Test 3' };
+			await expect(
+				idxDBCommand.update(
+					{ data: updatedData, key: updatedData.id },
+					{ store: 'testStore' }
+				)
+			).rejects.toThrow();
+		});
+
 		it('should successfully update existing data', async () => {
 			const updatedData = { id: 1, name: 'Updated Test 1' };
 			const result = await idxDBCommand.update(
-				{ data: updatedData, key: updatedData.id },
+				{ data: updatedData },
 				{ store: 'testStore' }
 			);
 			expect(result).toBe(updatedData.id);
@@ -103,19 +113,19 @@ describe('IdxDBCommand', () => {
 	describe('delete', () => {
 		it('should throw error if object store does not exist', async () => {
 			await expect(
-				idxDBCommand.delete({ key: 1 }, { store: 'nonExistentStore' })
+				idxDBCommand.delete(1, { store: 'nonExistentStore' })
 			).rejects.toThrow(/El objecStore nonExistentStore no existe/);
 		});
 
 		it('should throw error if key is not specified', async () => {
 			await expect(
-				idxDBCommand.delete({}, { store: 'testStore' })
+				idxDBCommand.delete(null, { store: 'testStore' })
 			).rejects.toThrow(/No se especifico la clave para eliminar/);
 		});
 
 		it('should successfully delete data', async () => {
 			expect(
-				await idxDBCommand.delete({ key: 1 }, { store: 'testStore' })
+				await idxDBCommand.delete(1, { store: 'testStore' })
 			).toBeUndefined();
 		});
 	});

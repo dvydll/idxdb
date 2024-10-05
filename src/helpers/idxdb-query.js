@@ -51,6 +51,7 @@ export class IdxDBQuery {
 	/**
 	 * Realiza una operación definida por el callback proporcionado por cada elemento del almacén de objetos.
 	 * @param {() => unknown} recordHandler
+	 * @param {string | null} index
 	 * @param {{name = this.#currentStoreName,options = IdxDB.TRANSACTION_TYPES.readonly}} [param1={}]
 	 * @returns
 	 */

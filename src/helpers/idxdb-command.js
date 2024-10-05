@@ -64,7 +64,7 @@ export class IdxDBCommand {
 		{ store = '', options = TRANSACTION_TYPES.readwrite } = {}
 	) {
 		let tx;
-		try {
+		// try {
 			if (!this.#db.objectStoreNames.contains(store))
 				throw new IdxDBError(0, `El objecStore ${store} no existe.`);
 
@@ -75,15 +75,15 @@ export class IdxDBCommand {
 				dbReq.onsuccess = (event) => resolve(event.target.result);
 				dbReq.onerror = (event) => reject(event.target.error);
 			});
-		} catch (error) {
-			if (tx && tx instanceof IDBTransaction) tx.abort();
-			if (error instanceof IdxDBError) throw error;
-			throw new IdxDBError(0, 'Error al actualizar datos.', { ...error });
-		}
+		// } catch (error) {
+		// 	if (tx && tx instanceof IDBTransaction) tx.abort();
+		// 	if (error instanceof IdxDBError) throw error;
+		// 	throw new IdxDBError(0, 'Error al actualizar datos.', { ...error });
+		// }
 	}
 
 	async delete(
-		{ key },
+		query = undefined,
 		{ store = '', options = TRANSACTION_TYPES.readwrite } = {}
 	) {
 		let tx;
@@ -93,14 +93,14 @@ export class IdxDBCommand {
 					objectStorestore: store,
 				});
 
-			if (!key)
+			if (!query)
 				throw new IdxDBError(0, 'No se especifico la clave para eliminar.', {
-					key,
+					query,
 				});
 
 			tx = this.#db.transaction(store, options);
 			const objStore = tx.objectStore(store);
-			const request = objStore.delete(key);
+			const request = objStore.delete(query);
 			return await new Promise((resolve, reject) => {
 				request.onsuccess = (event) => resolve(event.target.result);
 				request.onerror = (event) => reject(event.target.error);
