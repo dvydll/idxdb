@@ -38,20 +38,23 @@ export const TRANSACTION_TYPES = Object.freeze({
 
 export const OBJECT_STORE_OPTIONS = Object.freeze({
 	/**
-	 * Un booleano que indica si se debe crear un campo de clave autoincrementable.
+	 * Un booleano que indica si se debe crear un campo de clave autoincrementable. True por defecto
+	 * @type {(autoIncrement:boolean)=>({autoIncrement:boolean})}
 	 */
-	autoIncrement: { autoIncrement: true },
+	autoIncrement: (autoIncrement = true) => ({ autoIncrement }),
 	/**
 	 * Especifica el nombre del campo que servirá como clave primaria del almacén de objetos.
 	 * @type {(keyPath:string)=>({keyPath:string})}
-	 */
+	*/
 	keyPath: (keyPath) => ({ keyPath }),
 	/**
-	 * Un booleano que indica si se deben permitir claves duplicadas en el almacén de objetos.
-	 */
-	unique: { unique: true },
+	 * Un booleano que indica si se deben permitir claves duplicadas en el almacén de objetos. True por defecto
+	 * @type {(unique:boolean)=>({unique:boolean})}
+	*/
+	unique: (unique = true) => ({ unique }),
 	/**
-	 * Un booleano que indica si se deben permitir valores de entrada múltiple para un mismo campo en los índices.
+	 * Un booleano que indica si se deben permitir valores de entrada múltiple para un mismo campo en los índices. True por defecto
+	 * @type {(multiEntry:boolean)=>({multiEntry:boolean})}
 	 */
-	multiEntry: { multiEntry: true },
+	multiEntry: (multiEntry = true) => ({ multiEntry }),
 });

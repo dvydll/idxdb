@@ -161,17 +161,17 @@ export class IdxDB {
 	}
 
 	async get(
-		{ key = undefined } = {},
+		key = undefined,
 		{
 			store = this.#currentStoreName,
 			options = IdxDB.TRANSACTION_TYPES.readonly,
 		} = {}
 	) {
 		if (this.#usePersistentQuery)
-			return await this.#dbQuery.get({ key, store, options });
+			return await this.#dbQuery.get(key, { store, options });
 
 		const transientDBQuery = new IdxDBQuery(this.#db);
-		return await transientDBQuery.get({ key, store, options });
+		return await transientDBQuery.get(key, { store, options });
 	}
 
 	/**
@@ -182,16 +182,23 @@ export class IdxDB {
 	 */
 	async cursor(
 		recordHandler = (record) => record,
+		index = undefined,
 		{
 			store = this.#currentStoreName,
 			options = IdxDB.TRANSACTION_TYPES.readonly,
 		} = {}
 	) {
 		if (this.#usePersistentQuery)
-			return await this.#dbQuery.cursor(recordHandler, { store, options });
+			return await this.#dbQuery.cursor(recordHandler, index, {
+				store,
+				options,
+			});
 
 		const transientDBQuery = new IdxDBQuery(this.#db);
-		return await transientDBQuery.cursor(recordHandler, { store, options });
+		return await transientDBQuery.cursor(recordHandler, index, {
+			store,
+			options,
+		});
 	}
 
 	async create(
@@ -219,12 +226,12 @@ export class IdxDB {
 	}
 
 	async delete(
-		{ key },
+		key = undefined,
 		{
 			store = this.#currentStoreName,
 			options = IdxDB.TRANSACTION_TYPES.readwrite,
 		} = {}
 	) {
-		return await this.#dbCommand.delete({ key }, { store, options });
+		return await this.#dbCommand.delete(key, { store, options });
 	}
 }
