@@ -1,28 +1,32 @@
-// tests/__e2e__/idxdb.e2e.test.js
 import { expect, test } from '@playwright/test';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-test('IndexedDB CRUD operations', async ({ page }) => {
-  // Navega a tu aplicación
-  await page.goto('http://localhost:3000'); // Cambia a la URL de tu aplicación
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const libPath = path.join(__dirname, '../../src/index.js');
 
-  // Realiza una operación para crear un nuevo registro en IndexedDB
-  await page.click('button#add-item'); // Supón que tienes un botón para añadir un item
+test.describe('IdxDB E2E tests', () => {
+	test('should initialize IdxDB correctly', async ({ page }) => {
+		// Inyectar el script de tu biblioteca en la página
+		await page.addScriptTag({ path: libPath, type: 'module' });
 
-  // Verifica que el registro se haya añadido
-  const item = await page.evaluate(() => {
-    return new Promise((resolve) => {
-      const request = indexedDB.open('testDB', 1);
-      request.onsuccess = (event) => {
-        const db = event.target.result;
-        const transaction = db.transaction('testObjectStore', 'readonly');
-        const objectStore = transaction.objectStore('tuObjectStore');
-        const getRequest = objectStore.get('idDelItemAgregado'); // Reemplaza con el ID del item que agregaste
-        getRequest.onsuccess = () => resolve(getRequest.result);
-      };
-    });
-  });
+		// Ejecutar la función para inicializar IdxDB y verificar
+		const initResult = await page.evaluate(async () => {
+			// eslint-disable-next-line no-undef
+			const idxdb = await IdxDB.init({
+				name: 'testDB',
+				version: 1,
+				stores: ['testStore', 'otherTestStore'],
+			});
 
-  expect(item).toBeDefined(); // Verifica que el item fue creado
+			return idxdb.dbInfo; // Devuelve la información de la base de datos
+		});
 
-  // Realiza otras operaciones como update y delete, de manera similar
+		expect(initResult).toEqual({
+			name: 'testDB',
+			version: 1,
+			stores: ['testStore', 'otherTestStore'],
+		});
+	});
 });

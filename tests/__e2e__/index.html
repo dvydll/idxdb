@@ -3,15 +3,15 @@
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
-		<title>Pruebas de IndexedDB</title>
-		<!-- <script src="/idxdb/src/index.js"></script> -->
+		<title>Pruebas de IdxDB</title>
+		<script type="module" src="../../src/idxdb.js"></script>
 		<script type="module">
-			import { IdxDB } from '../../src/index.js';
-			// Aquí puedes añadir código que interactúe con tu biblioteca
 			async function runTests() {
 				const idxdb = await IdxDB.init({
-          
-        });
+					name: 'testDB',
+					version: 1,
+					stores: ['testStore', 'otherTestStore'],
+				});
 				// Puedes agregar llamadas a tu biblioteca aquí para probar
 				await idxdb.createObjectStore('testStore');
 				await idxdb.create('testStore', { id: 'item1', name: 'Item 1' });

@@ -152,7 +152,7 @@ export class IdxDB {
 		}
 	}
 
-	store(name = '') {
+	store(name = undefined) {
 		if (!this.#db.objectStoreNames.contains(name))
 			throw new IdxDBError(0, `El objectStore ${name} no existe.`);
 
