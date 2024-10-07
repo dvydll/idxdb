@@ -1,8 +1,8 @@
 'use strict';
 
-import { OBJECT_STORE_OPTIONS, TRANSACTION_TYPES } from './constants';
-import { IdxDBError } from './errors';
-import { IdxDBCommand, IdxDBQuery } from './helpers';
+import { OBJECT_STORE_OPTIONS, TRANSACTION_TYPES } from './constants/index.js';
+import { IdxDBError } from './errors/index.js';
+import { IdxDBCommand, IdxDBQuery } from './helpers/index.js';
 
 /**
  * Crea un contexto de una base de datos en indexedDB con las operaciones CRUD básicas

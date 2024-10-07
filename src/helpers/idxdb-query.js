@@ -1,7 +1,7 @@
 'use strict';
 
-import { TRANSACTION_TYPES } from '../constants';
-import { IdxDBError } from '../errors';
+import { TRANSACTION_TYPES } from '../constants/index.js';
+import { IdxDBError } from '../errors/index.js';
 
 export class IdxDBQuery {
 	/**

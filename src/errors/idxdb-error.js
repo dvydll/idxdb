@@ -1,5 +1,5 @@
 'use strict';
-import { IDXDB_ERROR_CODES, IDXDB_ERROR_MESSAGES } from '../constants';
+import { IDXDB_ERROR_CODES, IDXDB_ERROR_MESSAGES } from '../constants/index.js';
 
 export class IdxDBError extends Error {
 	constructor(

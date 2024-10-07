@@ -1,19 +1,23 @@
 import { expect, test } from '@playwright/test';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { IdxDB } from "../../src/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const libPath = path.join(__dirname, '../../src/index.js');
+const htmlFilePath = path.join(__dirname, 'test.html'); // Ruta al archivo HTML
 
 test.describe('IdxDB E2E tests', () => {
 	test('should initialize IdxDB correctly', async ({ page }) => {
-		// Inyectar el script de tu biblioteca en la página
-		await page.addScriptTag({ path: libPath, type: 'module' });
+		// Cargar el archivo HTML
+		await page.goto(`file://${htmlFilePath}`);
+
+    await page.addInitScript(() => {
+      window.IdxDB = IdxDB;
+    })
 
 		// Ejecutar la función para inicializar IdxDB y verificar
 		const initResult = await page.evaluate(async () => {
-			// eslint-disable-next-line no-undef
 			const idxdb = await IdxDB.init({
 				name: 'testDB',
 				version: 1,
