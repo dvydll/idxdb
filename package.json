@@ -8,6 +8,7 @@
 		"test": "tests"
 	},
 	"scripts": {
+		"git:commit": "git add . && git commit -m \"$(echo -e '$npm_config_msg\n\n' && git status | sed '/(use \"git restore --staged.*\"/d')\" && git push",
 		"test": "npx vitest",
 		"test:e2e": "npx playwright test"
 	},
