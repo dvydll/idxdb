@@ -1,5 +1,3 @@
-'use strict';
-
 import { OBJECT_STORE_OPTIONS, TRANSACTION_TYPES } from './constants/index.js';
 import { IdxDBError } from './errors/index.js';
 import { IdxDBCommand, IdxDBQuery } from './helpers/index.js';

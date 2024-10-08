@@ -1,5 +1,3 @@
-'use strict';
-
 import { TRANSACTION_TYPES } from '../constants/index.js';
 import { IdxDBError } from '../errors/index.js';
 

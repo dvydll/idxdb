@@ -1,5 +1,3 @@
-'use strict';
-
 import { TRANSACTION_TYPES } from '../constants/index.js';
 import { IdxDBError } from '../errors/index.js';
 
@@ -65,16 +63,16 @@ export class IdxDBCommand {
 	) {
 		let tx;
 		// try {
-			if (!this.#db.objectStoreNames.contains(store))
-				throw new IdxDBError(0, `El objecStore ${store} no existe.`);
+		if (!this.#db.objectStoreNames.contains(store))
+			throw new IdxDBError(0, `El objecStore ${store} no existe.`);
 
-			tx = this.#db.transaction(store, options);
-			const objStore = tx.objectStore(store);
-			const dbReq = objStore.put(data, key);
-			return await new Promise((resolve, reject) => {
-				dbReq.onsuccess = (event) => resolve(event.target.result);
-				dbReq.onerror = (event) => reject(event.target.error);
-			});
+		tx = this.#db.transaction(store, options);
+		const objStore = tx.objectStore(store);
+		const dbReq = objStore.put(data, key);
+		return await new Promise((resolve, reject) => {
+			dbReq.onsuccess = (event) => resolve(event.target.result);
+			dbReq.onerror = (event) => reject(event.target.error);
+		});
 		// } catch (error) {
 		// 	if (tx && tx instanceof IDBTransaction) tx.abort();
 		// 	if (error instanceof IdxDBError) throw error;
